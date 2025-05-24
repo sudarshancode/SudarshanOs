@@ -1,20 +1,28 @@
-// Multiboot header
-__attribute__((section(".multiboot")))
-const unsigned int multiboot_header[] = {
-    0x1BADB002,       // magic
-    0x00000000,       // flags
-    0xE4524FFE        // checksum (-(magic + flags))
-};
-
 //Header File
 #include "include/screen.h"
 #include "include/keyboard.h"
+#include "include/idt.h"
+#include "include/isr.h"
+#include <stdint.h>
+
+// Multiboot header
+__attribute__((section(".multiboot"), used))
+struct {
+    uint32_t magic;
+    uint32_t flags;
+    uint32_t checksum;
+} multiboot_header = {
+    0x1BADB002,
+    0,
+    -(0x1BADB002 + 0)
+};
+
 void kernel_main() {
-    
-    print("Welcome to Kernel",0); // print(String,line_number)
-    keyboard_handler(); //Take character from keyboard
+    print("Keyboard Test O1", 0);
 
-
+    //load_idt();     // Load IDT
+    //isr_install();  // Setup keyboard ISR
+    //__asm__ volatile("sti");  // Enable interrupts
     while (1);// __asm__ volatile("hlt");
 }
 
