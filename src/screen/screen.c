@@ -12,7 +12,7 @@ void print(const char *str,int line) {
         The screen has 80 columns × 25 rows = 2000 characters max.
         So, a full line of text uses: 80 × 2 = 160 bytes.
     */
-    int offset=0;
+    int offset=line * VGA_WIDTH * 2;
     int i = 0;
     while (str[i]) {
         vga[offset+ i * 2] = str[i];
